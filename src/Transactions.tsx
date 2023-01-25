@@ -3,23 +3,29 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { initial, getConcurrency, getExpenses, getPayments, getTrip } from './redux/store.ts';
+import { converterToShamsi, getDay, uniqueDay, convertDaysToShamsi, convertDateTimeToShamsi } from './utils/convertDate.ts';
+import { ConvertTransType } from './utils/convertTypes.ts';
 
 
 
 const Transactions: FC = () => {
     const [transactionsList, setTransactionsList] = useState('');
     const [filterKey, setFilterKey] = useState('initial');
-    const list = useSelector(state => state.transactions)
+    const list = useSelector(state => state.transactions);
+    const [days, setDays] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(initial())
-        alert('hii')
+        dispatch(initial());
     }, [])
 
     useEffect(() => {
         HandleFilter();
     }, [filterKey])
+
+    useEffect(() => {
+        setDays(uniqueDay(list, 'datetime'))
+    }, [list])
 
     const HandleFilter = () => {
         if (filterKey === 'payments') dispatch(getPayments());
@@ -47,36 +53,29 @@ const Transactions: FC = () => {
                 </div>
             </div>
 
-            {list.map(trans => (
-                <div className='flex-container'>
-                    <div>
-                    {trans.request_datetime?(
-                        <>
-                        <p></p>
-                        <p>هزینه سفر</p>
-                        </>
-                    ):(trans.datetime?(
-                        <>
-                        <p></p>
-                        <p>شارژ حساب</p>
-                        </>
-                    ):(trans.created_at?(
-                        <>
-                        <p></p>
-                        <p>خسارت</p>
-                        </>
-                    ):(trans.start_date?(
-                        <>
-                        <p></p>
-                        <p>خرید ظرفیت همزمان</p>
-                        </>
-                    ):null)))}
+            {days.map(day => (
+                <>
+                    <div className='filtered-day-header' key={day}>
+                        <p>{day}</p>
                     </div>
-                    <div className='filter-trans'>
-                        <p> تومان</p>
-                    </div>
-                </div>
+                    {list.map(transaction => (
+                        <>
+                            {convertDaysToShamsi(transaction.datetime) === day && (
+                                <div className='flex-container trans-card' key={transaction.id}>
+                                    <div>
+                                        <p>{convertDateTimeToShamsi(transaction.datetime)}</p>
+                                        <p>{ConvertTransType(transaction.type)}</p>
+                                    </div>
+                                    <div className='filter-trans'>
+                                        <p><span>{transaction.amount}</span>تومان</p>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    ))}
+                </>
             ))}
+
         </>
     );
 }

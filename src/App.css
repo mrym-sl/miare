@@ -11,7 +11,7 @@ direction: rtl;
 }
 
 .flex-container > div {
-  background-color: #f1f1f1;
+  background-color: #fafafa;
   width: 100%;
   /* margin: 10px; */
   text-align: center;
@@ -32,4 +32,14 @@ padding-top: 15px;
   padding: 2px;
   font-size: 16px;
   margin-right: 4px;
+}
+
+.filtered-day-header{
+  background-color: #eeeeee;
+  margin: 0;
+  padding: 4px 25px;
+}
+
+.trans-card{
+  border-bottom: 1px solid rgba(201, 201, 201, 0.863);
 }

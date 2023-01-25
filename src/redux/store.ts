@@ -1,5 +1,7 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 import data from '../asset/data.json';
+import { filteringConcurrency, filteringPayment , filteringExpenses, filteringTrip} from './filteringData.ts';
+import { PaymentsArray } from './interfaces';
 
 // interface TransState {
 //   id?: number
@@ -34,23 +36,29 @@ const TranactionsSlice = createSlice({
 },
   reducers: {
     initial: state => {
-       state.transactions = [...data.concurrency_costs, ...data.misc_expenses, ...data.payments, ...data.trip_financials]
-    },
+       state.transactions = [...filteringPayment([...data.payments]), ...filteringExpenses([...data.misc_expenses]), ...filteringTrip([...data.trip_financials]), ...filteringConcurrency([...data.concurrency_costs])].
+       sort((a, b) =>  new Date(b.datetime).getTime() - new Date(a.datetime).getTime())
+      },
     getPayments: (state) => {
-      //  state.transactions = [...data.payments]
-    },
+       state.transactions = filteringPayment([...data.payments]).
+       sort((a, b) =>  new Date(b.datetime).getTime() - new Date(a.datetime).getTime())
+      },
     getExpenses: (state) => {
-       state.transactions = [...data.misc_expenses]
+       state.transactions = filteringExpenses([...data.misc_expenses]).
+       sort((a, b) =>  new Date(b.datetime).getTime() - new Date(a.datetime).getTime())
+
     },
     getTrip: (state) => {
-      state.transactions = [...data.trip_financials];
-      
+      state.transactions = filteringTrip([...data.trip_financials]).
+      sort((a, b) =>  new Date(b.datetime).getTime() - new Date(a.datetime).getTime())
     },
     getConcurrency: (state) => {
-      state.transactions = [...data.concurrency_costs]
+      state.transactions = filteringConcurrency([...data.concurrency_costs]).
+      sort((a, b) =>  new Date(b.datetime).getTime() - new Date(a.datetime).getTime())
     },
   }
 })
+
 
 export const { initial, getConcurrency, getExpenses, getPayments, getTrip } = TranactionsSlice.actions;
 export default TranactionsSlice.reducer
