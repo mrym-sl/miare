@@ -56,11 +56,16 @@ const TranactionsSlice = createSlice({
       state.transactions = filteringConcurrency([...data.concurrency_costs]).
       sort((a, b) =>  new Date(b.datetime).getTime() - new Date(a.datetime).getTime())
     },
+    getSearchedTrip: (state,action) => {
+      state.transactions = filteringTrip([...data.trip_financials]).
+      sort((a, b) =>  new Date(b.datetime).getTime() - new Date(a.datetime).getTime()).
+      filter(trans => trans.driver.includes(action.payload))
+    },
   }
 })
 
 
-export const { initial, getConcurrency, getExpenses, getPayments, getTrip } = TranactionsSlice.actions;
+export const { initial, getConcurrency, getExpenses, getPayments, getTrip , getSearchedTrip } = TranactionsSlice.actions;
 export default TranactionsSlice.reducer
 
 

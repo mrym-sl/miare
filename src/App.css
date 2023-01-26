@@ -34,6 +34,23 @@ padding-top: 15px;
   margin-right: 4px;
 }
 
+.driver-search-input{
+  height: 25px; 
+  margin-right: 4px;
+}
+
+.driver-search-btn{
+  height: 30px; 
+  width: 80px;
+  outline: none;
+  border: none;
+  background-color: rgb(233, 221, 200);
+  margin-right: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
 .filtered-day-header{
   background-color: #eeeeee;
   margin: 0;
@@ -42,4 +59,20 @@ padding-top: 15px;
 
 .trans-card{
   border-bottom: 1px solid rgba(201, 201, 201, 0.863);
+}
+
+.text-green , .text-red{
+  font-weight: bold;
+}
+
+.text-green{
+  color: rgb(71, 196, 33);
+}
+
+.text-red{
+  color: rgb(190, 9, 48);
+}
+
+.text-small {
+  font-size: 12px;
 }
