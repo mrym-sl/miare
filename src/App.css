@@ -1,21 +1,22 @@
-body{
-direction: rtl;
-}
-
 .flex-container {
   display: flex;
   flex-wrap: nowrap;
-  background-color: DodgerBlue;
   justify-content: space-between;
-  
 }
 
 .flex-container > div {
   background-color: #fafafa;
   width: 100%;
-  /* margin: 10px; */
   text-align: center;
   font-size: 16px;
+}
+
+.transaction-nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 1px 1px 1px 0px rgba(121, 121, 121, 0.75);
 }
 
 .filter-trans {
@@ -32,6 +33,11 @@ padding-top: 15px;
   padding: 2px;
   font-size: 16px;
   margin-right: 4px;
+}
+
+body{
+  direction: rtl;
+  padding-top: 50px;
 }
 
 .driver-search-input{
@@ -59,6 +65,8 @@ padding-top: 15px;
 
 .trans-card{
   border-bottom: 1px solid rgba(201, 201, 201, 0.863);
+  background-color: #fafafa;
+  padding: 28px 0;;
 }
 
 .text-green , .text-red{

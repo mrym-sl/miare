@@ -1,20 +1,14 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import TransactionDetail from './TransactionDetail.tsx';
 import { initial, getConcurrency, getExpenses, getPayments, getTrip, getSearchedTrip } from './redux/store.ts';
-import { convertToPersianNumber } from './utils/convertCurrency.ts';
-import { converterToShamsi, getDay, uniqueDay, convertDaysToShamsi, convertDateTimeToShamsi } from './utils/convertDate.ts';
-import { ConvertTransType } from './utils/convertTypes.ts';
 
 
-
-const Transactions: FC = () => {
-    const [transactionsList, setTransactionsList] = useState('');
+const Transactions: FunctionComponent = () => {
     const [filterKey, setFilterKey] = useState('initial');
     const [searchKey, setSearchKey] = useState('');
-    const list = useSelector(state => state.transactions);
-    const [days, setDays] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,9 +19,6 @@ const Transactions: FC = () => {
         HandleFilter();
     }, [filterKey])
 
-    useEffect(() => {
-        setDays(uniqueDay(list, 'datetime'))
-    }, [list])
 
     useEffect(() => {
         handleSearchDriver();
@@ -49,7 +40,7 @@ const Transactions: FC = () => {
 
     return (
         <>
-            <div className='flex-container'>
+            <div className='flex-container transaction-nav'>
                 <div>
                     <p>تمام تراکنش ها</p>
                 </div>
@@ -67,36 +58,9 @@ const Transactions: FC = () => {
                         <input type='text' className='driver-search-input' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} placeholder='جستجو کنید'/>
                     </>}
                 </div>
-
             </div>
 
-            {days.map(day => (
-                <>
-                    <div className='filtered-day-header' key={day}>
-                        <p>{day}</p>
-                    </div>
-                    {list.map(transaction => (
-                        <>
-                            {convertDaysToShamsi(transaction.datetime) === day && (
-                                <div className='flex-container trans-card' key={transaction.id}>
-                                    <div>
-                                        <p>{convertDateTimeToShamsi(transaction.datetime)}</p>
-                                        <p className={transaction.type === 'payment' ? 'text-green' : 'text-red'}>{ConvertTransType(transaction.type)}</p>
-                                        {transaction.driver && <p className='text-small'>راننده: {transaction.driver}</p>}
-                                        {transaction.hub && transaction.hub.title && <p className='text-small'>شعبه: {transaction.hub.title}</p>}
-                                        {transaction.startDate && <p className='text-small'>خرید ظرفیت از تاریخ: {converterToShamsi(transaction.startDate)}
-                                            {transaction.endDate && <span> تا تاریخ: {converterToShamsi(transaction.endDate)}</span>}</p>}
-                                    </div>
-                                    <div className={transaction.amount * (-1) > 0 || transaction.amount === 'رایگان' ? 'text-green' : 'text-red'}>
-                                        <p><span>{convertToPersianNumber(transaction.amount * (-1))}</span> تومان</p>
-                                    </div>
-                                </div>
-                            )}
-                        </>
-                    ))}
-                </>
-            ))}
-
+            <TransactionDetail/>
         </>
     );
 }

@@ -36,3 +36,20 @@ interface Hub {
     id:number
     title:string
 }
+
+
+// interface TransactionState {
+//   id: number
+//   datetime: string
+//   amount: number
+//   driver?: string
+//   source_title?: string
+//   hub?: Hub
+//   title?: string
+//   start_date?: string
+//   end_date?: string
+// }
+
+// const initialState = {
+//   trans : <TransState>
+// }

@@ -1,31 +1,6 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 import data from '../asset/data.json';
 import { filteringConcurrency, filteringPayment , filteringExpenses, filteringTrip} from './filteringData.ts';
-import { PaymentsArray } from './interfaces';
-
-// interface TransState {
-//   id?: number
-//   trip_id?: number
-//   request_datetime?: string
-//   driver?: string
-//   final_price?: number
-//   source_title?: string
-//   hub?: {
-//     id: number
-//     title: string
-//   }
-//   datetime?: string
-//   amount?: number
-//   description?
-//   title?: string
-//   created_at?: string
-//   start_date?: string
-//   end_date?: string
-// }
-
-// const initialState = {
-//   trans : <TransState>
-// }
 
 const TranactionsSlice = createSlice({
   name: 'transactions',
@@ -73,6 +48,6 @@ export const store = configureStore({
   reducer: TranactionsSlice.reducer
 })
 
-store.subscribe(() => console.log(store.getState()))
+// store.subscribe(() => console.log(store.getState()))
 
 store.dispatch(initial())
